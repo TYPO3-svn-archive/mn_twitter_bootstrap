@@ -2,8 +2,7 @@
 /***************************************************************
  * Copyright notice
  *
- * Based on t3mootools from Peter Klein <peter@umloud.dk>
- * (c) 2007-2010 Juergen Furrer (juergen.furrer@gmail.com)
+ * (c) 2007-2012 Mattias Nilsson (tollepjaer@gmail.com)
  * All rights reserved
  *
  * This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,21 +35,77 @@
 class tx_mntwitterbootstrap
 {
     /**
-	 * Hook function for adding script
+	 * Hook function for adding header data
 	 *
 	 * @param	array	Params for hook
 	 * @return	void
 	 */
     function includeTwitterBootstrap($params) {
-        $params['jsFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/bootstrap.min.js"] = array(
-			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/bootstrap.min.js", //tx_t3jquery::getJqJS(TRUE),
-			'type'       => 'text/javascript',
-			'section'    => t3lib_PageRenderer::PART_HEADER,//self::getSection(),
-			'compress'   => FALSE,
-			'forceOnTop' => TRUE,
-			'allWrap'    => ''
-		);
+        
+        $confArr = $this->getConf();
+        //Check if value is set to integrate the library
+		if ($confArr['alwaysIntegrate']) {
+               
+            $renderPart = $this->getSection($confArr['integrateToFooter']);
+        
+            $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap.min.css"] = array(
+    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap.min.css", 
+    			'type'       => 'text/css',
+    			'section'    => $renderPart,
+    			'compress'   => FALSE,
+    			'forceOnTop' => TRUE,
+    			'allWrap'    => '',
+                'rel'        => 'stylesheet',
+                'media'      => 'all'
+    		);
+            
+            $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap-responsive.min.css"] = array(
+    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap-responsive.min.css", 
+    			'type'       => 'text/css',
+    			'section'    => $renderPart,
+    			'compress'   => FALSE,
+    			'forceOnTop' => TRUE,
+    			'allWrap'    => '',
+                'rel'        => 'stylesheet',
+                'media'      => 'all'
+    		);
+            
+            $params['jsFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/bootstrap.min.js"] = array(
+    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/bootstrap.min.js", 
+    			'type'       => 'text/javascript',
+    			'section'    => $renderPart,
+    			'compress'   => FALSE,
+    			'forceOnTop' => TRUE,
+    			'allWrap'    => ''
+    		);
+        }
     }
+    
+    
+    /**
+     * tx_mntwitterbootstrap::getSection()
+     * 
+     * @param   boolean     $integrateToFooter
+     * @return  constant    PageRender option
+     */
+    function getSection($integrateToFooter)
+	{
+		if ($integrateToFooter) {
+			return t3lib_PageRenderer::PART_FOOTER;
+		} else {
+			return t3lib_PageRenderer::PART_HEADER;
+		}
+	}
+    
+    /**
+	 * Get the configuration of mn_twitter_bootstrap 
+     * 
+	 * @return  array
+	 */
+	function getConf()
+	{
+		return unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mn_twitter_bootstrap']);
+	}
     
 }
 

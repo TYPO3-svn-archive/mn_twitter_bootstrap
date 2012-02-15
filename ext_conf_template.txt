@@ -1,0 +1,5 @@
+# cat=basic/enable/10; type=boolean; label=Always integrate Twitter bootstrap: If set, the library will be integrated on every page
+alwaysIntegrate = 
+
+# cat=basic/enable/20; type=boolean; label=Integrate Twitter bootstrap to footer: If set, the library will be inserted into the footer section
+integrateToFooter = 

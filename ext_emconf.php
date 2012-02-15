@@ -13,7 +13,7 @@
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Twitter boostrap',
 	'description' => 'Include Twitter bootstrap in your TYPO3 installation.',
-	'category' => '',
+	'category' => 'misc',
 	'author' => 'Mattias Nilsson',
 	'author_email' => 'tollepjaer@gmail.com',
 	'shy' => '',
@@ -21,7 +21,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'conflicts' => '',
 	'priority' => '',
 	'module' => '',
-	'state' => 'alpha',
+	'state' => 'stable',
 	'internal' => '',
 	'uploadfolder' => 0,
 	'createDirs' => '',
