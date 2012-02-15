@@ -48,17 +48,6 @@ class tx_mntwitterbootstrap
                
             $renderPart = $this->getSection($confArr['integrateToFooter']);
         
-            $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap.min.css"] = array(
-    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap.min.css", 
-    			'type'       => 'text/css',
-    			'section'    => $renderPart,
-    			'compress'   => FALSE,
-    			'forceOnTop' => TRUE,
-    			'allWrap'    => '',
-                'rel'        => 'stylesheet',
-                'media'      => 'all'
-    		);
-            
             $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap-responsive.min.css"] = array(
     			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap-responsive.min.css", 
     			'type'       => 'text/css',
@@ -69,7 +58,18 @@ class tx_mntwitterbootstrap
                 'rel'        => 'stylesheet',
                 'media'      => 'all'
     		);
-            
+        
+            $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap.min.css"] = array(
+    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap.min.css", 
+    			'type'       => 'text/css',
+    			'section'    => $renderPart,
+    			'compress'   => FALSE,
+    			'forceOnTop' => TRUE,
+    			'allWrap'    => '',
+                'rel'        => 'stylesheet',
+                'media'      => 'all'
+    		);
+                
             $params['jsFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/bootstrap.min.js"] = array(
     			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/bootstrap.min.js", 
     			'type'       => 'text/javascript',
