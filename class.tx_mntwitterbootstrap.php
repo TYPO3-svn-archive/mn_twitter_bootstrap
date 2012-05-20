@@ -45,11 +45,16 @@ class tx_mntwitterbootstrap
         $confArr = $this->getConf();
         //Check if value is set to integrate the library
 		if ($confArr['alwaysIntegrate']) {
+            
+            $files = $this->getMinifiedFiles();
+            if(!$confArr['minifiedVersion']) {
+                $files = $this->getNoneMinifiedFiles();
+            }
                
             $renderPart = $this->getSection($confArr['integrateToFooter']);
         
-            $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap-responsive.min.css"] = array(
-    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap-responsive.min.css", 
+            $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap-responsive']] = array(
+    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap-responsive'], 
     			'type'       => 'text/css',
     			'section'    => $renderPart,
     			'compress'   => FALSE,
@@ -58,9 +63,22 @@ class tx_mntwitterbootstrap
                 'rel'        => 'stylesheet',
                 'media'      => 'all'
     		);
-        
-            $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap.min.css"] = array(
-    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/bootstrap.min.css", 
+            
+            if($confArr['navbarFix']) {
+                $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/css/navbar-responsive.css"] = array(
+        			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/css/navbar-responsive.css", 
+        			'type'       => 'text/css',
+        			'section'    => $renderPart,
+        			'compress'   => FALSE,
+        			'forceOnTop' => TRUE,
+        			'allWrap'    => '',
+                    'rel'        => 'stylesheet',
+                    'media'      => 'all'
+        		);    
+            }
+                    
+            $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap']] = array(
+    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap'], 
     			'type'       => 'text/css',
     			'section'    => $renderPart,
     			'compress'   => FALSE,
@@ -70,8 +88,8 @@ class tx_mntwitterbootstrap
                 'media'      => 'all'
     		);
                 
-            $params['jsFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/bootstrap.min.js"] = array(
-    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/bootstrap.min.js", 
+            $params['jsFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/" . $files['bootstrap-js']] = array(
+    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/" . $files['bootstrap-js'], 
     			'type'       => 'text/javascript',
     			'section'    => $renderPart,
     			'compress'   => FALSE,
@@ -88,8 +106,7 @@ class tx_mntwitterbootstrap
      * @param   boolean     $integrateToFooter
      * @return  constant    PageRender option
      */
-    function getSection($integrateToFooter)
-	{
+    function getSection($integrateToFooter) {
 		if ($integrateToFooter) {
 			return t3lib_PageRenderer::PART_FOOTER;
 		} else {
@@ -102,11 +119,37 @@ class tx_mntwitterbootstrap
      * 
 	 * @return  array
 	 */
-	function getConf()
-	{
+	function getConf() {
 		return unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mn_twitter_bootstrap']);
 	}
     
+    /**
+     * Get the file paths for minified version
+     * 
+     * @return array $files
+     */
+    private function getMinifiedFiles() {
+        $files = array(
+            'bootstrap-responsive' => 'bootstrap-responsive.min.css',
+            'bootstrap' => 'bootstrap.min.css',
+            'bootstrap-js' => 'bootstrap.min.js'
+        );
+        return $files;
+    }
+    
+    /**
+     * Get the file paths for none minified version
+     * 
+     * @return array $files
+     */
+    private function getNoneMinifiedFiles() {
+        $files = array(
+            'bootstrap-responsive' => 'bootstrap-responsive.css',
+            'bootstrap' => 'bootstrap.css',
+            'bootstrap-js' => 'bootstrap.js'
+        );
+        return $files;
+    }
 }
 
 
