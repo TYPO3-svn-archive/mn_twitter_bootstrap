@@ -37,13 +37,14 @@ class tx_mntwitterbootstrap
     /**
 	 * Hook function for adding header data
 	 *
-	 * @param	array	Params for hook
-	 * @return	void
+	 * @param array	Params for hook
+	 * @return void
 	 */
     function includeTwitterBootstrap($params) {
         
         $confArr = $this->getConf();
-        //Check if value is set to integrate the library
+        
+            // Check if value is set to integrate the library
 		if ($confArr['alwaysIntegrate']) {
             
             $files = $this->getMinifiedFiles();
@@ -52,7 +53,15 @@ class tx_mntwitterbootstrap
             }
                
             $renderPart = $this->getSection($confArr['integrateToFooter']);
-        
+            
+                // Check if domains are set for specific integration of pagetree
+            if($confArr['domains']) {
+                $domains = explode(',', $confArr['domains']);
+                if(!in_array($GLOBALS['_SERVER']['HTTP_HOST'], $domains)) {
+                    $renderPart = NULL;
+                }
+            }
+            
             $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap-responsive']] = array(
     			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap-responsive'], 
     			'type'       => 'text/css',
@@ -103,8 +112,8 @@ class tx_mntwitterbootstrap
     /**
      * tx_mntwitterbootstrap::getSection()
      * 
-     * @param   boolean     $integrateToFooter
-     * @return  constant    PageRender option
+     * @param boolean $integrateToFooter
+     * @return constant PageRender option
      */
     function getSection($integrateToFooter) {
 		if ($integrateToFooter) {
@@ -117,7 +126,7 @@ class tx_mntwitterbootstrap
     /**
 	 * Get the configuration of mn_twitter_bootstrap 
      * 
-	 * @return  array
+	 * @return array
 	 */
 	function getConf() {
 		return unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mn_twitter_bootstrap']);

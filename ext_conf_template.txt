@@ -9,3 +9,6 @@ minifiedVersion = 1
 
 # cat=basic/enable/10; type=boolean; label=Include navbar CSS fix: If set will include a extra CSS file for fix of reponsive navigation
 navbarFix = 
+
+# cat=basic; type=string; label=Domains to integrate into register both www and without (use , as separator between domains)
+domains = 
