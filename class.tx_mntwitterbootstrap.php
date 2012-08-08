@@ -54,63 +54,78 @@ class tx_mntwitterbootstrap
                
             $renderPart = $this->getSection($confArr['integrateToFooter']);
             
-                // Check if domains are set for specific integration of pagetree
+                // Check if domains are set for specific domain(s)
             if($confArr['domains']) {
                 $domains = explode(',', $confArr['domains']);
-                if(!in_array($GLOBALS['_SERVER']['HTTP_HOST'], $domains)) {
-                    $renderPart = NULL;
+                if(in_array($GLOBALS['_SERVER']['HTTP_HOST'], $domains)) {
+                	$this->generateIncludeFiles($params, $confArr, $files, $renderPart);
                 }
             }
-            
-            $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap-responsive']] = array(
-    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap-responsive'], 
-    			'type'       => 'text/css',
-    			'section'    => $renderPart,
-    			'compress'   => FALSE,
-    			'forceOnTop' => TRUE,
-    			'allWrap'    => '',
-                'rel'        => 'stylesheet',
-                'media'      => 'all'
-    		);
-            
-            if($confArr['navbarFix']) {
-                $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/css/navbar-responsive.css"] = array(
-        			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/css/navbar-responsive.css", 
-        			'type'       => 'text/css',
-        			'section'    => $renderPart,
-        			'compress'   => FALSE,
-        			'forceOnTop' => TRUE,
-        			'allWrap'    => '',
-                    'rel'        => 'stylesheet',
-                    'media'      => 'all'
-        		);    
-            }
-                    
-            $params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap']] = array(
-    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap'], 
-    			'type'       => 'text/css',
-    			'section'    => $renderPart,
-    			'compress'   => FALSE,
-    			'forceOnTop' => TRUE,
-    			'allWrap'    => '',
-                'rel'        => 'stylesheet',
-                'media'      => 'all'
-    		);
-                
-            $params['jsFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/" . $files['bootstrap-js']] = array(
-    			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/" . $files['bootstrap-js'], 
-    			'type'       => 'text/javascript',
-    			'section'    => $renderPart,
-    			'compress'   => FALSE,
-    			'forceOnTop' => TRUE,
-    			'allWrap'    => ''
-    		);
+			else if(!$confArr['domains']) {
+				$this->generateIncludeFiles($params, $confArr, $files, $renderPart);
+			}
+
+
         }
     }
-    
+
+	/**
+	 * Generate the files that are to be included
+	 *
+	 * @param array $params
+	 * @param array $confArr
+	 * @param array $files
+	 * @param string $renderPart
+	 * @return void
+	 */
+	private function generateIncludeFiles(&$params, $confArr, $files, $renderPart) {
+		$params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap-responsive']] = array(
+			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap-responsive'],
+			'type'       => 'text/css',
+			'section'    => $renderPart,
+			'compress'   => FALSE,
+			'forceOnTop' => TRUE,
+			'allWrap'    => '',
+			'rel'        => 'stylesheet',
+			'media'      => 'all'
+		);
+
+		if($confArr['navbarFix']) {
+			$params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/css/navbar-responsive.css"] = array(
+				'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/css/navbar-responsive.css",
+				'type'       => 'text/css',
+				'section'    => $renderPart,
+				'compress'   => FALSE,
+				'forceOnTop' => TRUE,
+				'allWrap'    => '',
+				'rel'        => 'stylesheet',
+				'media'      => 'all'
+			);
+		}
+
+		$params['cssFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap']] = array(
+			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/css/" . $files['bootstrap'],
+			'type'       => 'text/css',
+			'section'    => $renderPart,
+			'compress'   => FALSE,
+			'forceOnTop' => TRUE,
+			'allWrap'    => '',
+			'rel'        => 'stylesheet',
+			'media'      => 'all'
+		);
+
+		$params['jsFiles'][t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/" . $files['bootstrap-js']] = array(
+			'file'       => t3lib_extMgm::siteRelPath('mn_twitter_bootstrap') . "res/bootstrap/js/" . $files['bootstrap-js'],
+			'type'       => 'text/javascript',
+			'section'    => $renderPart,
+			'compress'   => FALSE,
+			'forceOnTop' => TRUE,
+			'allWrap'    => ''
+		);
+	}
     
     /**
-     * tx_mntwitterbootstrap::getSection()
+     * Get which section to render the files header or footer
      * 
      * @param boolean $integrateToFooter
      * @return constant PageRender option
